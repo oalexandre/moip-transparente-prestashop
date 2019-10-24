@@ -18,7 +18,7 @@
  *  International Registered Trademark & Property of Moip Wirecard Brasil
  */
 
-include_once dirname(__FILE__) . '../../../cpfmodule/cpfmodule.php';
+include_once dirname(__FILE__) . '/../../../cpfmodule/cpfmodule.php';
 
 class Moipv2AuthorizationModuleFrontController extends ModuleFrontController
 {
