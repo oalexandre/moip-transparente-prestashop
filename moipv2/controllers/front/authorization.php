@@ -18,6 +18,8 @@
  *  International Registered Trademark & Property of Moip Wirecard Brasil
  */
 
+include_once dirname(__FILE__) . '../../../cpfmodule/cpfmodule.php';
+
 class Moipv2AuthorizationModuleFrontController extends ModuleFrontController
 {
     public $ssl = true;
@@ -318,13 +320,17 @@ class Moipv2AuthorizationModuleFrontController extends ModuleFrontController
         // INICIO - definição do atributo para o documento cpf...  altere caso necessário para o seu atributo.
         $taxvat   = $customer->cpf_cnpj;
         if (!$taxvat) {
-            if (isset($customer->document)) {
-                $taxvat = $customer->document;
-            } elseif (isset($address->vat_number)) {
-                $taxvat = $address->vat_number;
-            } else {
-                $taxvat = '000.000.000-00';
-            }
+            $cpfmudule = new cpfmodule();
+            $doc = $cpfmudule->getDoc(Context::getContext()->cookie->id_customer);
+            $taxvat = $doc->number;
+            
+//             if (isset($customer->document)) {
+//                 $taxvat = $customer->document;
+//             } elseif (isset($address->vat_number)) {
+//                 $taxvat = $address->vat_number;
+//             } else {
+//                 $taxvat = '000.000.000-00';
+//             }
         }
         $taxvat = preg_replace("/[^0-9]/", "", $taxvat);
         if (Tools::strlen($taxvat) > 11) {
